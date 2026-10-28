@@ -108,7 +108,7 @@ main.wrap{display:grid;gap:20px;padding-block:22px 60px}
 .seg button .c{font-size:11.5px;background:var(--surface);border-radius:999px;padding:1px 8px;font-variant-numeric:tabular-nums}
 .seg button[aria-selected="true"]{background:var(--orange);color:#fff;box-shadow:0 2px 0 var(--orange-ink)}
 .seg button[aria-selected="true"] .c{background:rgba(255,255,255,.25);color:#fff}
-body.readonly #addBtn,body.readonly #teamBtn,body.readonly #importBtn,body.readonly .edit,body.readonly .tab.add{display:none}
+body.readonly #addBtn,body.readonly #teamBtn,body.readonly #importBtn,body:not(.readonly) #exportBtn,body.readonly .edit,body.readonly .tab.add{display:none}
 body.readonly .status-sel,body.readonly .prio-sel,body.readonly .subs input,body.readonly #avatarBtn,body.readonly #meEdit{pointer-events:none}
 .subtabs{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:-8px}
 .subtabs .lbl{font-size:11.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-right:4px}
@@ -231,6 +231,7 @@ form.dlg-body{padding:18px 20px;display:grid;gap:14px;grid-template-columns:1fr 
       <button class="btn" id="exportBtn" type="button" title="Baixar um arquivo com todas as demandas">Backup</button>
       <button class="btn" id="importBtn" type="button" title="Carregar um backup">Importar</button>
       <input type="file" id="importInput" accept=".json,application/json" hidden>
+      <button class="btn" id="loginBtn" type="button">Entrar para editar</button>
       <button class="btn" id="teamBtn" type="button">Equipe</button>
       <button class="btn primary" id="addBtn" type="button">+ Nova tarefa</button>
     </div>
@@ -288,6 +289,19 @@ form.dlg-body{padding:18px 20px;display:grid;gap:14px;grid-template-columns:1fr 
     <div class="f full"><label for="fRole">Cargo</label><input id="fRole" maxlength="80" placeholder="Ex.: Analista de Planejamento de Transportes"></div>
     <div class="f full"><small>O primeiro nome vira a sua aba e aparece como responsável nas suas demandas. Para trocar a foto, clique no círculo ao lado do nome.</small></div>
     <div class="dlg-foot"><span></span><div style="display:flex;gap:8px"><button class="btn" type="button" data-close>Cancelar</button><button class="btn primary" type="submit">Salvar</button></div></div>
+  </form>
+</dialog>
+
+<dialog id="loginDlg" aria-labelledby="loginTitle">
+  <div class="dlg-head"><h2 id="loginTitle">Entrar para editar</h2><button type="button" data-close aria-label="Fechar">×</button></div>
+  <form class="dlg-body" id="loginForm">
+    <div class="f full"><small>Feito uma vez por computador. Você precisa ser colaborador do repositório (o Allan te adiciona).<br>
+      1. Abra <a href="https://github.com/settings/tokens/new?scopes=public_repo&description=TO%20DO%20LIST%20PPC" target="_blank" rel="noopener">este link do GitHub</a> (já vem com a permissão certa marcada: <b>public_repo</b>).<br>
+      2. Em Expiration escolha 90 dias ou mais e clique em <b>Generate token</b>.<br>
+      3. Copie o código que começa com <b>ghp_</b> e cole abaixo.</small></div>
+    <div class="f full"><label for="fToken">Token do GitHub</label><input id="fToken" type="password" autocomplete="off" placeholder="ghp_..."></div>
+    <div class="f full"><small id="loginErr" style="color:var(--bad)"></small></div>
+    <div class="dlg-foot"><span></span><div style="display:flex;gap:8px"><button class="btn" type="button" data-close>Cancelar</button><button class="btn primary" type="submit">Entrar</button></div></div>
   </form>
 </dialog>
 
@@ -553,20 +567,59 @@ if(API_URL){
   load().then(()=>{ if(!st.profile.name) openProfile(); });
   setInterval(()=>{ if(!document.hidden && !document.querySelector("dialog[open]")) load(); },60000);
 } else {
-  // Modo lista oficial: todos veem o data.json do repositório; as alterações são publicadas pelo Allan/Claude.
-  document.body.classList.add("readonly");
-  const off=()=>{ toast("Lista oficial: para alterar, peça ao Allan."); render(); };
-  save=off; removeTask=off; saveTeam=off; saveProfile=off;
+  /* ---------- modo GitHub: data.json no repositório é o banco ---------- */
+  const GH={owner:"allan-rodrigues-shopee",repo:"to_do_list",path:"data.json",branch:"main"};
+  const GH_API="https://api.github.com/repos/"+GH.owner+"/"+GH.repo+"/contents/"+GH.path;
+  let ghToken=""; try{ ghToken=localStorage.getItem("gh-token")||""; }catch(e){}
+  let ghUser=""; let queue=Promise.resolve();
+  const b64e=s=>btoa(unescape(encodeURIComponent(s)));
+  const b64d=s=>decodeURIComponent(escape(atob(s.replace(/\s/g,""))));
+  const hdr=()=>({"Authorization":"Bearer "+ghToken,"Accept":"application/vnd.github+json"});
+  const applyData=d=>{ st.tasks=d.tasks||[]; st.team=d.team||[]; st.profile=d.profile||{};
+    const f=document.querySelector(".foot"); if(f) f.textContent=(d.updatedAt?"Última atualização: "+new Date(d.updatedAt).toLocaleString("pt-BR",{dateStyle:"short",timeStyle:"short"})+(d.updatedBy?" por "+d.updatedBy:"")+". ":"")+(ghToken?"Você está editando como "+(ghUser||"…")+".":"Para editar, clique em Entrar."); };
+  async function ghGet(){ const r=await fetch(GH_API+"?ref="+GH.branch+"&t="+Date.now(),{headers:hdr(),cache:"no-store"}); if(r.status===401) throw {code:401}; if(!r.ok) throw new Error("GitHub "+r.status); const j=await r.json(); return {data:JSON.parse(b64d(j.content)),sha:j.sha}; }
+  function setMode(){ document.body.classList.toggle("readonly",!ghToken); $("#loginBtn").textContent=ghToken?"Sair":"Entrar para editar"; }
   load=async function(){
     try{
-      const r=await fetch("data.json?t="+Date.now(),{cache:"no-store"}); const d=await r.json();
-      st.tasks=d.tasks||[]; st.team=d.team||[]; st.profile=d.profile||{};
-      const f=document.querySelector(".foot"); if(f) f.textContent="Lista oficial do time PPC - Outbound"+(d.updatedAt?" · atualizada em "+new Date(d.updatedAt).toLocaleString("pt-BR",{dateStyle:"short",timeStyle:"short"}):"")+". Para alterar, fale com o Allan.";
+      if(ghToken){ const {data}=await ghGet(); applyData(data); }
+      else { const r=await fetch("data.json?t="+Date.now(),{cache:"no-store"}); applyData(await r.json()); }
       render();
-    }catch(e){ toast("Não consegui carregar a lista. Recarregue a página."); }
+    }catch(e){ if(e&&e.code===401){ logout(); toast("Seu acesso expirou. Entre de novo."); } else toast("Não consegui carregar a lista. Recarregue a página."); }
   };
-  render(); load();
-  setInterval(()=>{ if(!document.hidden) load(); },120000);
+  function commit(mut,msg){
+    queue=queue.then(async()=>{
+      for(let i=0;i<4;i++){
+        const {data,sha}=await ghGet(); mut(data); data.updatedAt=new Date().toISOString(); data.updatedBy=ghUser;
+        const r=await fetch(GH_API,{method:"PUT",headers:{...hdr(),"Content-Type":"application/json"},body:JSON.stringify({message:msg+" ("+ghUser+")",content:b64e(JSON.stringify(data,null,1)),sha,branch:GH.branch})});
+        if(r.ok){ applyData(data); render(); return; }
+        if(r.status===403||r.status===404) throw new Error("sem permissão de escrita no repositório. Peça ao Allan para te adicionar como colaborador.");
+        if(r.status!==409&&r.status!==422) throw new Error("GitHub "+r.status);
+      }
+      throw new Error("muitas edições ao mesmo tempo. Tente de novo.");
+    }).catch(e=>{ toast("Não salvou: "+((e&&e.message)||e)); load(); });
+    return queue;
+  }
+  const guard=()=>{ if(!ghToken){ toast("Para editar, clique em Entrar."); render(); return false; } return true; };
+  save=function(t){ if(!guard()) return; t={...t,updatedAt:new Date().toISOString()}; const i=st.tasks.findIndex(x=>x.id===t.id); if(i>=0) st.tasks[i]=t; else st.tasks.push(t); render();
+    commit(d=>{ d.tasks=d.tasks||[]; const j=d.tasks.findIndex(x=>x.id===t.id); if(j>=0) d.tasks[j]=t; else { t.num=Math.max(0,...d.tasks.map(x=>x.num||0))+1; d.tasks.push(t); } },(i>=0?"Atualiza":"Cria")+" #"+t.num+" "+t.demanda); };
+  removeTask=function(t){ if(!guard()) return; st.tasks=st.tasks.filter(x=>x.id!==t.id); render(); commit(d=>{ d.tasks=(d.tasks||[]).filter(x=>x.id!==t.id); },"Exclui #"+t.num+" "+t.demanda).then(()=>toast("Demanda excluída")); };
+  saveTeam=function(names){ if(!guard()) return; st.team=names; render(); commit(d=>{ d.team=names; },"Atualiza equipe"); };
+  saveProfile=function(p){ if(!guard()) return; st.profile={...st.profile,...p}; render(); commit(d=>{ d.profile={...(d.profile||{}),...p}; },"Atualiza perfil"); };
+  function logout(){ ghToken=""; ghUser=""; try{ localStorage.removeItem("gh-token"); }catch(e){} setMode(); load(); }
+  async function login(tok){
+    const r=await fetch("https://api.github.com/repos/"+GH.owner+"/"+GH.repo,{headers:{"Authorization":"Bearer "+tok,"Accept":"application/vnd.github+json"}});
+    if(!r.ok) throw new Error("token inválido ("+r.status+").");
+    const j=await r.json(); if(!j.permissions||!j.permissions.push) throw new Error("essa conta não tem permissão de edição. Peça ao Allan para te adicionar como colaborador.");
+    const u=await (await fetch("https://api.github.com/user",{headers:{"Authorization":"Bearer "+tok}})).json();
+    ghToken=tok; ghUser=u.login||""; try{ localStorage.setItem("gh-token",tok); }catch(e){}
+  }
+  $("#loginBtn").addEventListener("click",()=>{ if(ghToken){ logout(); toast("Você saiu."); return; } $("#fToken").value=""; $("#loginErr").textContent=""; $("#loginDlg").showModal(); $("#fToken").focus(); });
+  $("#loginForm").addEventListener("submit",async e=>{ e.preventDefault(); const tok=$("#fToken").value.trim(); if(!tok) return;
+    $("#loginErr").textContent="Verificando…";
+    try{ await login(tok); $("#loginDlg").close(); setMode(); await load(); toast("Pronto, "+ghUser+". Você já pode editar."); }
+    catch(err){ $("#loginErr").textContent="Não deu certo: "+((err&&err.message)||err); } });
+  (async()=>{ if(ghToken){ try{ const u=await (await fetch("https://api.github.com/user",{headers:hdr()})).json(); ghUser=u.login||""; }catch(e){} } setMode(); render(); load(); })();
+  setInterval(()=>{ if(!document.hidden && !document.querySelector("dialog[open]")) load(); },60000);
 }
 </script>
 
