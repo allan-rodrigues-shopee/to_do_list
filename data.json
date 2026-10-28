@@ -1,0 +1,442 @@
+{
+ "v": 1,
+ "tasks": [
+  {
+   "createdAt": "2026-10-23T01:00:00Z",
+   "demanda": "Mataciclo 2.0",
+   "fim": "2026-10-30",
+   "id": "t01",
+   "inicio": "2026-10-23",
+   "notas": "",
+   "num": 1,
+   "objetivo": "Evoluir o mataciclo com auditoria, controle ponta a ponta e 3 momentos de decisão (W-2, W-1, W0).",
+   "prioridade": 0,
+   "responsavel": "Allan",
+   "status": "Pausado",
+   "subitens": [
+    {
+     "done": false,
+     "text": "Ferramenta de auditoria simplificada: decisão do Modelo vs Backlog Actuals (pós-realizado, para defender se a decisão foi assertiva)"
+    },
+    {
+     "done": false,
+     "text": "Controle ponta a ponta da ferramenta: mata grade, ativa grade, tira cap, coloca cap, tudo conectado"
+    },
+    {
+     "done": false,
+     "text": "Testar em menos operações"
+    },
+    {
+     "done": false,
+     "text": "3 momentos: W-2 visão geral do muito inconsistente; W-1 refinamento (80-90% da decisão); W0 só ajuste por desvio operacional (SOC capotado, HUB com problema)"
+    }
+   ],
+   "updatedAt": "2026-10-23T03:18:39.885Z"
+  },
+  {
+   "createdAt": "2026-10-23T01:00:00Z",
+   "demanda": "Manutenção ADO Mínimo por perfil",
+   "fim": "",
+   "id": "t02",
+   "inicio": "",
+   "notas": "",
+   "num": 2,
+   "objetivo": "Validar se a lógica usada em FMH faz sentido e definir quando atualizar para valer nos SOCs.",
+   "prioridade": null,
+   "responsavel": "Allan",
+   "status": "",
+   "subitens": [
+    {
+     "done": false,
+     "text": "Pegar a lógica que os meninos usam em FMH"
+    },
+    {
+     "done": false,
+     "text": "Avaliar se ela faz sentido"
+    },
+    {
+     "done": false,
+     "text": "Ponderar ADO Mín. de acordo com o SPR de cada rota"
+    },
+    {
+     "done": false,
+     "text": "Definir data para atualizar para valer nos SOCs"
+    }
+   ],
+   "updatedAt": "2026-10-23T19:45:36.986Z"
+  },
+  {
+   "createdAt": "2026-10-23T01:00:00Z",
+   "demanda": "Manutenção Base SPR",
+   "fim": "2026-10-23",
+   "id": "t03",
+   "inicio": "2026-10-19",
+   "notas": "",
+   "num": 3,
+   "objetivo": "Ajustar a oportunidade do SPP identificada e concluir o handover de controles e updates de SPR do Thiago para o Sasaki.",
+   "prioridade": 2,
+   "responsavel": "Thiago",
+   "status": "Em Andamento",
+   "subitens": [
+    {
+     "done": false,
+     "text": "Ajustar a oportunidade do SPP identificada na semana passada"
+    },
+    {
+     "done": false,
+     "text": "Handover Thiago → Sasaki dos controles e updates de SPR"
+    }
+   ],
+   "updatedAt": "2026-10-23T11:40:09.623Z"
+  },
+  {
+   "createdAt": "2026-10-23T01:00:00Z",
+   "demanda": "Governança Non Compliant SPR",
+   "fim": "",
+   "inicio": "",
+   "notas": "",
+   "num": 4,
+   "objetivo": "Definir se o Thiago assume também a governança do Non Compliant SPR para InterSOCs.",
+   "prioridade": null,
+   "responsavel": "Thiago",
+   "status": "",
+   "subitens": [],
+   "id": "t04"
+  },
+  {
+   "createdAt": "2026-10-23T01:00:00Z",
+   "demanda": "Utilização de VUCs nas origens",
+   "fim": "",
+   "inicio": "",
+   "notas": "",
+   "num": 5,
+   "objetivo": "Acompanhar a utilização de VUCs nas origens SP24, RJ6, RJ4 e SC2.",
+   "prioridade": null,
+   "responsavel": "Allan",
+   "status": "",
+   "subitens": [],
+   "id": "t05"
+  },
+  {
+   "createdAt": "2026-10-23T01:00:00Z",
+   "demanda": "Roll Out Janela Infinita · HUBs Nordeste",
+   "fim": "",
+   "inicio": "",
+   "notas": "",
+   "num": 6,
+   "objetivo": "Definir a data e executar o roll out da Janela Infinita para os HUBs do Nordeste.",
+   "prioridade": null,
+   "responsavel": "Allan",
+   "status": "",
+   "subitens": [],
+   "id": "t06"
+  },
+  {
+   "createdAt": "2026-10-23T01:00:00Z",
+   "demanda": "Transbordo por dia da semana",
+   "fim": "",
+   "inicio": "",
+   "notas": "Push do Gonda. Não é urgente; conversar depois sobre a iniciativa.",
+   "num": 7,
+   "objetivo": "Estruturar a iniciativa de consolidação InterSOC / transformar MR: mandar algumas rotas InterSOC como transbordo em dias de baixa, visando melhorar o BWT.",
+   "prioridade": null,
+   "responsavel": "Allan",
+   "status": "",
+   "subitens": [],
+   "id": "t07"
+  },
+  {
+   "createdAt": "2026-10-23T01:00:00Z",
+   "demanda": "Handover E2E",
+   "fim": "",
+   "inicio": "",
+   "notas": "",
+   "num": 8,
+   "objetivo": "Avançar o handover E2E com o Leo e o Bruno, agora com o Jon de volta.",
+   "prioridade": null,
+   "responsavel": "Allan",
+   "status": "",
+   "subitens": [],
+   "id": "t08"
+  },
+  {
+   "createdAt": "2026-10-23T02:35:00Z",
+   "demanda": "Automação dos CAPs",
+   "fim": "",
+   "inicio": "",
+   "notas": "",
+   "num": 9,
+   "objetivo": "",
+   "prioridade": null,
+   "responsavel": "Phill",
+   "status": "",
+   "subitens": [],
+   "id": "t09"
+  },
+  {
+   "createdAt": "2026-10-23T02:35:00Z",
+   "demanda": "Automação de Solicitação de CPT por Janela",
+   "fim": "",
+   "inicio": "",
+   "notas": "",
+   "num": 10,
+   "objetivo": "",
+   "prioridade": null,
+   "responsavel": "Allan",
+   "status": "",
+   "subitens": [],
+   "id": "t10"
+  },
+  {
+   "createdAt": "2026-10-23T02:35:00Z",
+   "demanda": "Atualização dos KPIs da Weekly",
+   "fim": "",
+   "inicio": "",
+   "notas": "",
+   "num": 11,
+   "objetivo": "",
+   "prioridade": null,
+   "responsavel": "Bruno",
+   "status": "",
+   "subitens": [],
+   "id": "t11"
+  },
+  {
+   "createdAt": "2026-10-23T02:35:00Z",
+   "demanda": "Rollout do Bot do Café",
+   "fim": "",
+   "inicio": "",
+   "notas": "",
+   "num": 12,
+   "objetivo": "",
+   "prioridade": null,
+   "responsavel": "Bruno",
+   "status": "",
+   "subitens": [],
+   "id": "t12"
+  },
+  {
+   "createdAt": "2026-10-23T02:35:00Z",
+   "demanda": "Automação do Modelo de Reversa",
+   "fim": "",
+   "inicio": "",
+   "notas": "",
+   "num": 13,
+   "objetivo": "",
+   "prioridade": null,
+   "responsavel": "Yuri",
+   "status": "",
+   "subitens": [],
+   "id": "t13"
+  },
+  {
+   "createdAt": "2026-10-23T02:35:00Z",
+   "demanda": "Desenvolvimento do Acompanhamento de Mix de Perfil",
+   "fim": "",
+   "inicio": "",
+   "notas": "",
+   "num": 14,
+   "objetivo": "",
+   "prioridade": null,
+   "responsavel": "Yuri",
+   "status": "",
+   "subitens": [],
+   "id": "t14"
+  },
+  {
+   "createdAt": "2026-10-23T02:35:00Z",
+   "demanda": "Desenvolvimento do Algoritmo de Frota Própria",
+   "fim": "",
+   "inicio": "",
+   "notas": "",
+   "num": 15,
+   "objetivo": "",
+   "prioridade": null,
+   "responsavel": "Allan",
+   "status": "",
+   "subitens": [],
+   "id": "t15"
+  },
+  {
+   "createdAt": "2026-10-23T02:57:00Z",
+   "demanda": "Automação 100% do CAP Reach",
+   "fim": "",
+   "inicio": "",
+   "notas": "",
+   "num": 16,
+   "objetivo": "Automatizar 100% do processo de CAP Reach.",
+   "prioridade": null,
+   "responsavel": "Allan",
+   "status": "",
+   "subitens": [],
+   "id": "t16"
+  },
+  {
+   "createdAt": "2026-10-23T03:00:00Z",
+   "demanda": "Automação 100% e Redesign do Layout",
+   "fim": "",
+   "inicio": "",
+   "notas": "",
+   "num": 17,
+   "objetivo": "",
+   "prioridade": null,
+   "responsavel": "Matheus",
+   "status": "",
+   "subitens": [],
+   "id": "t17"
+  },
+  {
+   "createdAt": "2026-10-23T03:00:00Z",
+   "demanda": "Balanceamento Automático das Ruas do Layout",
+   "fim": "",
+   "inicio": "",
+   "notas": "",
+   "num": 18,
+   "objetivo": "",
+   "prioridade": null,
+   "responsavel": "Matheus",
+   "status": "",
+   "subitens": [],
+   "id": "t18"
+  },
+  {
+   "createdAt": "2026-10-23T03:00:00Z",
+   "demanda": "Desenvolvimento dos Procedimentos da Área",
+   "fim": "",
+   "inicio": "",
+   "notas": "",
+   "num": 19,
+   "objetivo": "",
+   "prioridade": null,
+   "responsavel": "Matheus",
+   "status": "",
+   "subitens": [],
+   "id": "t19"
+  },
+  {
+   "createdAt": "2026-10-23T03:00:30Z",
+   "demanda": "Desenvolvimento do Script de Rotina",
+   "fim": "",
+   "inicio": "",
+   "notas": "",
+   "num": 20,
+   "objetivo": "",
+   "prioridade": null,
+   "responsavel": "Allan",
+   "status": "",
+   "subitens": [],
+   "id": "t20"
+  },
+  {
+   "createdAt": "2026-10-23T03:02:00Z",
+   "demanda": "Agente para Alocação de CAP no Leftover",
+   "fim": "",
+   "inicio": "",
+   "notas": "",
+   "num": 21,
+   "objetivo": "Sempre que houver CAP zerado, o agente faz uma série de checks e inclui o CAP sempre em D-1.",
+   "prioridade": null,
+   "responsavel": "Allan",
+   "status": "",
+   "subitens": [],
+   "id": "t21"
+  },
+  {
+   "createdAt": "2026-10-23T03:07:00Z",
+   "demanda": "Bot de envio do plano após o último submit",
+   "fim": "",
+   "inicio": "",
+   "notas": "",
+   "num": 22,
+   "objetivo": "Desenvolver um bot que envia o plano sempre que o último responsável der o submit.",
+   "prioridade": null,
+   "responsavel": "Bruno",
+   "status": "",
+   "subitens": [],
+   "id": "t22"
+  },
+  {
+   "createdAt": "2026-10-23T03:07:00Z",
+   "demanda": "Calculadora de desvios",
+   "fim": "",
+   "inicio": "",
+   "notas": "",
+   "num": 23,
+   "objetivo": "Criar uma calculadora de desvios.",
+   "prioridade": null,
+   "responsavel": "Allan",
+   "status": "",
+   "subitens": [],
+   "id": "t23"
+  },
+  {
+   "createdAt": "2026-10-23T03:10:00Z",
+   "demanda": "Desenvolvimento de MR para Reversa",
+   "fim": "",
+   "inicio": "",
+   "notas": "",
+   "num": 24,
+   "objetivo": "",
+   "prioridade": null,
+   "responsavel": "Yuri",
+   "status": "",
+   "subitens": [],
+   "id": "t24"
+  },
+  {
+   "createdAt": "2026-10-23T03:13:00Z",
+   "demanda": "Weeklys de todos com suas regionais",
+   "fim": "",
+   "inicio": "",
+   "notas": "",
+   "num": 25,
+   "objetivo": "Garantir que todos tenham Weeklys com as suas regionais.",
+   "prioridade": null,
+   "responsavel": "Allan",
+   "status": "",
+   "subitens": [],
+   "id": "t25"
+  },
+  {
+   "createdAt": "2026-10-23T03:13:30Z",
+   "demanda": "Manutenção do Copilot",
+   "fim": "",
+   "inicio": "",
+   "notas": "",
+   "num": 26,
+   "objetivo": "Garantir a manutenção do Copilot.",
+   "prioridade": null,
+   "responsavel": "Bruno",
+   "status": "",
+   "subitens": [],
+   "id": "t26"
+  },
+  {
+   "createdAt": "2026-10-23T03:21:30Z",
+   "demanda": "CAP Reach com resultado diário",
+   "fim": "",
+   "inicio": "",
+   "notas": "",
+   "num": 27,
+   "objetivo": "Atualizar o CAP Reach para trazer o resultado de CAP Reach diariamente.",
+   "prioridade": null,
+   "responsavel": "Allan",
+   "status": "",
+   "subitens": [],
+   "id": "t27"
+  }
+ ],
+ "team": [
+  "Bruno",
+  "Cris",
+  "Matheus",
+  "Phill",
+  "Reyel",
+  "Thiago",
+  "Yuri"
+ ],
+ "profile": {
+  "name": "Allan Rodrigues",
+  "role": "Coordenador de Planejamento de Transportes"
+ }
+}

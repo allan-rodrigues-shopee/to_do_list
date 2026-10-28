@@ -550,7 +550,16 @@ if(API_URL){
   render();
   load().then(()=>{ if(!st.profile.name) openProfile(); });
   setInterval(()=>{ if(!document.hidden && !document.querySelector("dialog[open]")) load(); },60000);
-} else { load(); render(); if(!st.profile.name) setTimeout(openProfile,300); }
+} else {
+  load(); render();
+  if(!st.tasks.length){
+    // Primeira visita: começa pela lista oficial do time (data.json no repositório).
+    fetch("data.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(d=>{
+      if(d&&Array.isArray(d.tasks)&&!st.tasks.length){ st.tasks=d.tasks; st.team=d.team||[]; st.profile=d.profile||{}; persist(); render(); }
+      else if(!st.profile.name) openProfile();
+    }).catch(()=>{ if(!st.profile.name) openProfile(); });
+  } else if(!st.profile.name) setTimeout(openProfile,300);
+}
 </script>
 
 </body>
